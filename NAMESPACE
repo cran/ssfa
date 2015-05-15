@@ -1,0 +1,12 @@
+exportPattern("^[[:alpha:]]+")
+
+import(maxLik)
+import(Matrix)
+import(spdep)
+import(sp)
+
+S3method(fitted, ssfa) 
+S3method(print, ssfa)
+S3method(print,summary.ssfa)
+S3method(residuals, ssfa)
+S3method(summary, ssfa)
