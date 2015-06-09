@@ -1,0 +1,279 @@
+\documentclass{article}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+
+\usepackage{amsmath}
+\usepackage{amscd}
+\usepackage[tableposition=top]{caption}
+\usepackage{ifthen}
+\usepackage[utf8]{inputenc}
+\usepackage{subfigure}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage[authoryear]{natbib} 
+
+\setlength{\parskip}{9pt}
+
+\begin{document}
+\SweaveOpts{concordance=TRUE}
+
+%\VignetteIndexEntry{Spatial Stochastic frontier models: Instructions for use} 
+%\VignettePackage{ssfa} 
+
+\title{Spatial Stochastic frontier models: Instructions for use}
+\author{Elisa Fusco \& Francesco Vidoli}
+\maketitle
+
+In the last decade stochastic frontiers traditional models (see \citealp{sfa} for a detailed introduction to frontier analysis) have been extended with the aim to take into account firm specific heterogeneity (see \emph{e.g.} \citealp{Greene04a}, \citealp{Greene05a}, \citealp{Greene05b}). 
+If firm specific heterogeneity is not accounted, in fact, a considerable bias in the inefficiency estimates can be endogenously created. 
+
+\verb@ssfa@ package allows to include heterogeneity in a different way with respect to traditional techniques: 
+\emph{"instead of identifying ex-ante a multitude of determinants, often statistically and economically difficult to detect [...] this approach allow the evaluation of the conjoint effect of a multitude of determinants"} (\citealp{Fusco2013}) considering spatial proximities; more particularly \verb@ssfa@ package implements the Spatial Stochastic Frontier Analysis (SSFA), an original method introduced by \cite{Fusco2013} with the aim to test and depurate the spatial heterogeneity in Stochastic Frontier Analysis (SFA) models by splitting the inefficiency term into three terms: the first one related to spatial peculiarities of the territory in which each single unit operates, the second one related to the specific production features and the third one representing the error term.
+ 
+The main idea is that spatial dependence refers to how much the level of technical inefficiency of farm $i$ depends on the levels set by other farms $j=1,...,n$, under the assumption that part of the farm $i$ inefficiency ($u_i$) is linked to the neighbour DMU $j$'s performances ($j \neq i$). \\
+Denoting $y_i$ as the single output of producer $i$, $x_i$ the inputs vector and $f$ a generic parametric function, the Normal / Half-Normal cross-sectional production frontier model can be respectively written\footnote{For simplicity’s sake and to make the notation more consistent with the SFA literature, we did not write the model in matrix form, but for each company $i$.}:
+
+\begin{equation}
+\begin{split}
+log(y_{i}) = \; & log(f(x_{i};\beta_i)) +v_{i}-u_{i} \\
+ = \; & log(f(x_{i};\beta_i)) +v_{i}-(1-\rho \sum_{i}w_{i.})^{-1}\widetilde{u_{i}}\\
+\text{where}\\\\
+& v_{i} \sim \mathcal{N}(0,\sigma^{2}_{v}) \\
+& u_{i} \sim \mathcal{N^+}(0,(1-\rho \sum_{i}w_{i.})^{-2}\sigma^{2}_{\widetilde{u}}) \\
+& u_{i} \ \text{and} \ v_{i} \ \text{are independently distributed of each other,} \\
+& \;\; \;\;  \text{and of the regressors} \\
+& \widetilde{u_{i}} \sim \mathcal{N}(0,\sigma^{2}_{\widetilde{u}}) \\
+& w_{i.}  \ \text{is a standardized row of the spatial weights matrix} \\
+& \rho \ \text{is the spatial lag parameter ($\rho \in [0,1]$)}
+\end{split}
+\label{Production}
+\end{equation}
+ 
+ 
+\verb@ssfa@ package allows to estimate both the "\emph{production}" form (as shown in equation (\ref{Production}) and the "\emph{cost}" form of the frontier \emph{i.e.}:
+
+
+\begin{equation}
+\begin{split}
+log(C_{i}) = \; & log(f(y_{i}, w_{i};\beta_i)) +v_{i} + u_{i} \\\\
+\text{where} \\\\
+& C_{i} \ \text{is the cost} \\
+& w_{i} \ \text{are the input prices.} 
+\end{split}
+\label{Cost}
+\end{equation}
+
+\noindent Introducing a variable $sc$ that defines the form of the frontier:
+\begin{equation}
+\left\{\begin{matrix}
+\ \ \ 1 \ \text{for production function} \\ 
+- 1  \ \text{for cost function} \ \ \ \ \ \ \ \ 
+\end{matrix}\right.
+\label{form}
+\end{equation}
+
+
+\noindent \verb@ssfa@ model can be written as:
+
+
+\begin{equation}
+log(y_{i}) = log(f(x_{i};\beta_i)) +v_{i} - sc \cdot u_{i} 
+\label{model}
+\end{equation}
+
+
+\noindent In order to estimate the \verb@ssfa@ model we have to install and load the package:
+
+<<install>>=
+#install.packages("ssfa") 
+library(ssfa) 
+@ 
+
+\noindent In this package, the \verb@SSFA_example_data@ and \verb@Italian_W@ datasets have been included in order to better illustrate and comment the model.
+
+\begin{itemize}
+\item The first dataset contains the simulated data used by \cite{Fusco2013} to test the model. Data
+Generating Process (DGP) follows the construction criteria proposed by \cite{Banker08}, also used by \cite{Johnson11}, with the addition of a strong spatial correlation ($\rho=0.80$) in the inefficiency term through a spatial lag parameter and the contiguity matrix \verb@Italian_W@. 
+
+\item The second dataset is the Italian provinces contiguity matrix for the year 2008 containing 107 x 107 row-standardized distances.
+\end{itemize}
+
+<<data>>=
+data(SSFA_example_data)
+data(Italian_W)
+names(SSFA_example_data)
+@
+The variable \verb@log_y@ is the log-transformed output, \verb@log_x@ is the log-transformed input and \verb@DMU@ is the Decision Making Unit name. 
+\setkeys{Gin}{width=0.57\textwidth}
+\begin{figure}[H]
+\begin{center}
+<<label=fig1,fig=TRUE,echo=FALSE >>=
+plot(SSFA_example_data$log_x, SSFA_example_data$log_y, pch=16, cex=0.5, xlab="log_x", ylab="log_y", cex.axis=0.8, main="SSFA_example_data")
+@
+\end{center}
+\caption{Example simulated data}
+\label{fig:one}
+\end{figure}
+
+\verb@ssfa@ package allows to easily compare the Spatial Stochastic Frontier (SSFA) with the classical Stochastic Frontier (SFA) by setting the parameter \verb@par_rho@ as \verb@TRUE@ to estimate the SSFA or \verb@FALSE@ to estimate the classical SFA.
+
+\noindent In order to compare the SSFA estimation versus the SFA one, a standard SFA production frontier has been first estimate by setting, into the \verb@ssfa@ function, command \verb@form="production"@  and \verb@par_rho="FALSE"@:
+
+<<sfa>>=
+sfa <- ssfa(log_y ~ log_x , data = SSFA_example_data, data_w=Italian_W, 
+            form = "production", par_rho=FALSE)
+summary(sfa)
+@
+
+\noindent In the standard SFA framework (\verb@par_rho="FALSE"@), \verb@ssfa@ function returns, in addition to the \emph{intercept} and the \verb@log_x@ coefficient, the estimation of the variance of the two error components \verb@sigmau2@ and \verb@sigmav2@. 
+Other useful information about efficiency estimation are reported: 
+\begin{itemize}
+\item \verb@sigma2@: the estimate of the \emph{total variance} where $\sigma^2=\sigma_u^2+\sigma_v^2$;
+\item \verb@lambda@: the ratio of the standard deviation of the inefficiency term to the standard deviation of the stochastic term \emph{i.e.} $\frac{\sigma_u}{\sigma_v}$;
+\item the mean of efficiency estimated;
+\item the results of the test on the influence of the inefficiency on the model. This is a test of the null hypothesis $H_0 : \sigma_u^2=0$ against the alternative hypotheses $H_1 : \sigma_u^2>0$. If the null hypothesis is true, the stochastic frontier model is reduced to an OLS model with normal errors. 
+For this example, the output shows $LR = 1.088$ with a p-value of $0.148$. There are several possible reasons for the failure to this test, including for example the uncontrolled spatial dependence of the inefficiency term.
+\end{itemize}
+In addition to previous statistics, \verb@summary@ function displays information about the spatial autocorrelation of the SFA residuals, the Moran's I statistic. For example, in this application $I=0.457$ showing a positive and significant ($p-value < 2.2e-16$) global autocorrelation among residuals.
+
+<<moran_code1>>=
+ moran.test(residuals(sfa), listw=sfa$list_w)
+@
+
+\noindent Autocorrelation among residuals can be tested also locally thanks to \verb@plot_moran@ function that enables you to assess how similar an observed value is to its neighbouring observations; its horizontal axis is based on the values of the observations and is also known as the response axis, while the vertical Y axis is based on the weighted average or spatial lag of the corresponding observation on the horizontal X axis.
+This function need a neighbours list: it can be easily calculate thanks to the \verb@nb2listw@ function of \verb@spdep@ package from the contiguity matrix \verb@Italian_W@.
+
+<<moran_code2>>=
+ plot_moran(sfa, listw=sfa$list_w)
+@
+
+\begin{figure}[H]
+\begin{center}
+<<label=fig2,fig=TRUE,echo=FALSE >>=
+ plot_moran(sfa, listw=sfa$list_w)
+@
+\end{center}
+\caption{SFA Moran scatterplot}
+\label{fig:two}
+\end{figure}
+
+\noindent Finally, \verb@summary@ function reports the AIC value for the \verb@ssfa@ model and the \verb@lm@ model.
+
+
+Having estimated the SFA model as baseline, the spatial production frontier SSFA can be carried on by setting command \verb@form="production"@  and \verb@par_rho="TRUE"@:
+
+<<ssfa>>=
+ssfa <- ssfa(log_y ~ log_x , data = SSFA_example_data, data_w=Italian_W, 
+             form = "production", par_rho=TRUE)
+summary(ssfa)
+@
+
+\noindent The output of \verb@ssfa@ (with \verb@par_rho="FALSE"@) returns the \emph{intercept}, the \verb@log_x@ coefficient and the estimation of the variance of the two error components not spatially correlated \emph{i.e.} \verb@sigmau2_dmu@ and \verb@sigmav2@. 
+
+\noindent In this case, the model decomposes the inefficiency variance \verb@sigmau2@ into \verb@sigmau2_dmu@ and \verb@sigmau2_sar@, respectively the part of inefficiency variance due to DMU's specificities and to the spatial dependence, \emph{i.e.} $\sigma_u^2 = \sigma_{u_{dmu}}^2 + \sigma_{u_{sar}}^2$.
+Consequently, the \emph{total variance} is given by $\sigma^2 = \sigma_{u_{dmu}}^2 + \sigma_{u_{sar}}^2 + \sigma_v^2$. 
+
+\noindent In this application, (\verb@lambda@ = 1.257) is smaller than the SFA one (\verb@lambda@ = 1.301) because the production unit inefficiency is sterilized from the influence of the neighbourhood performances.
+
+\noindent In addition, the \verb@summary@ function reports the estimated spatial parameter $\rho$ that in this case is $0.778$ very close to the true simulation parameter ($0.80$); Moran's $I=-0.189$ is no more significant ($p-value = 0.9993$).
+
+<<moran_code3>>=
+ moran.test(residuals(ssfa), listw=ssfa$list_w)
+@
+
+<<moran_code4>>=
+ plot_moran(ssfa, listw=sfa$list_w)
+@
+
+\begin{figure}[H]
+\begin{center}
+<<label=fig3,fig=TRUE,echo=FALSE >>=
+ plot_moran(ssfa, listw=sfa$list_w)
+@
+\end{center}
+\caption{SSFA Moran scatterplot}
+\label{fig:three}
+\end{figure}
+
+\noindent In this application it can be easily note that the likelihood-ratio test is highly significant ($LR = 50.435$ with a $p$-value = $0.000$); these findings, support the conclusion that the SSFA model is able to correctly estimate the inefficiency component of the error term.
+
+Other functions are available into \verb@ssfa@ package:
+\begin{itemize}
+\item  \verb@fitted.ssfa@: this function calculates the fitted values of the original data used to estimate the SSFA model.
+<<fitted>>=
+ssfa_fitted <- fitted.ssfa(ssfa)
+sfa_fitted <- fitted.ssfa(sfa)
+@
+\item \verb@plot_fitted@: plots the original data, the SSFA fitted frontier and optionally the SFA fitted frontier with the aim to compare models colouring points according to the efficiency values. 
+<<plot_code>>=
+plot_fitted(SSFA_example_data$log_x, SSFA_example_data$log_y, ssfa, pch=16, cex=0.5,
+              xlab="X", ylab="Y", cex.axis=0.8 )
+points(SSFA_example_data$log_x, SSFA_example_data$log_y, pch=16, cex=0.5, 
+  col= ifelse(eff.ssfa(ssfa)<=quantile(eff.ssfa(ssfa), 0.20) , "#D7191C",
+        ifelse(eff.ssfa(ssfa)>quantile(eff.ssfa(ssfa), 0.20)
+          &eff.ssfa(ssfa)<=quantile(eff.ssfa(ssfa), 0.4) ,"#FF8C00",
+        ifelse(eff.ssfa(ssfa)>quantile(eff.ssfa(ssfa), 0.4)
+          &eff.ssfa(ssfa)<=quantile(eff.ssfa(ssfa), 0.6) ,"#FFFF00",
+        ifelse(eff.ssfa(ssfa)>quantile(eff.ssfa(ssfa), 0.6) 
+          &eff.ssfa(ssfa)<quantile(eff.ssfa(ssfa), 0.8) ,"#ADFF2F",
+        ifelse(eff.ssfa(ssfa)>quantile(eff.ssfa(ssfa), 0.8) 
+          &eff.ssfa(ssfa)<=quantile(eff.ssfa(ssfa), 1),"#008B00", "#2F4F4F"))))))
+lines(sort(SSFA_example_data$log_x),sfa_fitted[order(SSFA_example_data$log_x)],
+            col="red")
+@
+
+\begin{figure}[H]
+\begin{center}
+<<label=fig4,fig=TRUE,echo=FALSE>>=
+plot_fitted(SSFA_example_data$log_x, SSFA_example_data$log_y, ssfa, pch=16, cex=0.5, xlab="X", ylab="Y", cex.axis=0.8 )
+points(SSFA_example_data$log_x, SSFA_example_data$log_y, pch=16, cex=0.5, col=ifelse(eff.ssfa(ssfa)<=quantile(eff.ssfa(ssfa), 0.20) , "#D7191C",
+        ifelse(eff.ssfa(ssfa)>quantile(eff.ssfa(ssfa), 0.20)&eff.ssfa(ssfa)<=quantile(eff.ssfa(ssfa), 0.4) ,"#FF8C00",
+        ifelse(eff.ssfa(ssfa)>quantile(eff.ssfa(ssfa), 0.4) &eff.ssfa(ssfa)<=quantile(eff.ssfa(ssfa), 0.6) ,"#FFFF00",
+        ifelse(eff.ssfa(ssfa)>quantile(eff.ssfa(ssfa), 0.6) &eff.ssfa(ssfa)<quantile(eff.ssfa(ssfa), 0.8) ,"#ADFF2F",
+        ifelse(eff.ssfa(ssfa)>quantile(eff.ssfa(ssfa), 0.8) &eff.ssfa(ssfa)<=quantile(eff.ssfa(ssfa), 1),"#008B00","#2F4F4F"))))))
+lines(sort(SSFA_example_data$log_x), sfa_fitted[order(SSFA_example_data$log_x)],col="red")
+@
+\end{center}
+\caption{Plot data, SSFA and SSFA frontiers}
+\label{fig:four}
+\end{figure}
+
+\item  \verb@residuals.ssfa@: calculates the SSFA model residuals.
+
+<<residuals>>=
+ssfa_residuals <- residuals.ssfa(ssfa)
+sfa_residuals <- residuals.ssfa(sfa)
+@
+\noindent With residuals estimation we can compare SFA and SSFA results, for example, with maps like the following:
+\begin{figure}[H]
+\centering 
+\subfigure[SFA]{\includegraphics[width=0.45\textwidth, trim=2cm 2cm 1cm 2cm, clip=true]{SFA_residuals_map}}\qquad
+\subfigure[SSFA]{\includegraphics[width=0.45\textwidth, trim=2cm 2cm 1cm 2cm, clip=true]{SSFA_residuals_map}}
+\caption{Spatial residuals distribution by method}
+\label{fig:five}
+\end{figure}
+\noindent Figure \ref{fig:five} shows that the spatial dependence present in SFA residuals (a) is fully neutralized by the SSFA model (b).
+
+\item \verb@eff.ssfa@: calculates the efficiency (\cite{battese88} formulation) and inefficiency (\cite{Jondrow82} formulation) estimated.
+<<efficiency>>=
+ssfa_eff <-  eff.ssfa(ssfa)
+#sfa_eff <-  eff.ssfa(sfa)
+
+#summary(sfa_eff)
+#summary(ssfa_eff)
+
+ssfa_u <- u.ssfa(ssfa)
+#sfa_u <- u.ssfa(sfa)
+
+#summary(ssfa_u)
+#summary(sfa_u)
+@
+\end{itemize}
+
+%\section{References}
+%\bibliographystyle{acm}
+\bibliographystyle{apalike}
+\bibliography{spatial_sfa}
+
+\end{document}
+
+

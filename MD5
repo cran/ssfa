@@ -1,5 +1,6 @@
-57d0c3eb324cd8f10afbed4d6716cb0f *DESCRIPTION
+1a52be631b1605853676c11d4efebabd *DESCRIPTION
 a91ac2800d47bd84b3d449fd37d6081b *NAMESPACE
+4a2c1ecf38ff7ddee561a147728be309 *NEWS
 5f9cb07a01985e67f3d846cc61bcd798 *R/L_hNV.R
 51246c1f2d389524ba82fc7c129d0b14 *R/L_hNV_rho.R
 f534ee9b53cf1a501dc1f72e04a244a3 *R/eff.ssfa.R
@@ -13,8 +14,12 @@ c3090b3c70a6e0c409e0213bc8614ed4 *R/print.ssfa.r
 f677b4ec6eec12361b07a212e53ea53e *R/ssfa.fit.R
 2b11a5380460dcf56fd0ceddaf4abb0b *R/summary.ssfa.r
 5d7ea7559149a5149c3543412e598a0b *R/u.ssfa.r
+3d9805dd2b69ecbad2d301b8921f50c7 *build/vignette.rds
 22e920d6372349e30045c9a12ae1f524 *data/Italian_W.rda
 f739f0dd950b73de1b79ce9d9a2194c4 *data/SSFA_example_data.rda
+a23aff7311ea145a731993ec7e6472bc *inst/doc/ssfavignette.R
+038d2f9d49b9eb06cfc42bc8717c9b08 *inst/doc/ssfavignette.Rnw
+881935e9d476731ef9911ecb9026b335 *inst/doc/ssfavignette.pdf
 b09933f6e426039b7c570ceade420534 *man/Italian_W.Rd
 8b5f43156eed1c5e5d327ec1329a97a2 *man/L_hnv.Rd
 6f7f4a1dfc158dcd32c5e91263a3046f *man/L_hnv_rho.Rd
@@ -24,7 +29,11 @@ f7744250059ce506f9158c1eb75fed92 *man/fitted.ssfa.Rd
 7e3e40afe636c36e81d34c13d184a7e9 *man/plot_fitted.Rd
 cb77e9be0aff76c7deaeb795cf3550a1 *man/plot_moran.Rd
 bf98d7a790e7d44df82e0c4addcfe617 *man/residuals.ssfa.Rd
-c350f608c7507bbe2f3a1dad0e4f8a2c *man/ssfa-package.Rd
+58eaf1af5255adaaf5d75fc8919e99b0 *man/ssfa-package.Rd
 0b65d5fa959c3b3938841f971944d1a0 *man/ssfa.Rd
 aaf436ddbdd21bc256bb00f07df647a1 *man/summary.Rd
 b6d14c1708040346d0f3966ce179d36b *man/u.ssfa.Rd
+cf9e490ca65ba0b0b70668498aa0b58d *vignettes/SFA_residuals_map.pdf
+74a15e24d52af85edeae39b6e641c563 *vignettes/SSFA_residuals_map.pdf
+e5b98831d7882498bf6a53d31624c8fd *vignettes/spatial_sfa.bib
+038d2f9d49b9eb06cfc42bc8717c9b08 *vignettes/ssfavignette.Rnw
