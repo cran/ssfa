@@ -1,7 +1,12 @@
+==============
+ssfa v1.2 (Release date: 2022-01-05)
+==============
+Changes:
+* A maintenance update to accommodate changes in spdep.
+
+==============
 ssfa v1.1 (Release date: 2015-06-09)
 ==============
-
 Changes:
-
 * ssfa::ssfavignette has been included.
 

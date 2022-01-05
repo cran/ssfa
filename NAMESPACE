@@ -2,9 +2,17 @@ exportPattern("^[[:alpha:]]+")
 
 import(maxLik)
 import(Matrix)
-import(spdep)
+if (packageVersion("spdep") < 1.2) {
+  import(spdep, except=c("errorsarlm"))
+} else {
+  import(spdep)
+}
+importFrom(spatialreg, errorsarlm)
 import(sp)
-
+importFrom("stats", "df", "dnorm", "lm", "logLik", "model.frame",
+             "model.response", "pchisq", "pnorm", "printCoefmat",
+             "residuals", "var")
+importFrom("graphics", "lines")
 S3method(fitted, ssfa) 
 S3method(print, ssfa)
 S3method(print,summary.ssfa)

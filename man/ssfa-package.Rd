@@ -11,8 +11,8 @@ The method controls spatial heterogeneity in SFA models by splitting the ineffic
 \tabular{ll}{
 Package: \tab ssfa\cr
 Type: \tab Package\cr
-Version: \tab 1.1\cr
-Date: \tab 2015-06-09\cr
+Version: \tab 1.2\cr
+Date: \tab 2022-01-05\cr
 License: \tab GPL-3 \cr
 }
 }
