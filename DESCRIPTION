@@ -1,8 +1,8 @@
 Package: ssfa
 Type: Package
 Title: Spatial Stochastic Frontier Analysis
-Version: 1.2
-Date: 2022-01-05
+Version: 1.2.1
+Date: 2023-08-01
 Author: Elisa Fusco, Francesco Vidoli
 Maintainer: Elisa Fusco <fusco_elisa@libero.it>
 Description: Spatial Stochastic Frontier Analysis (SSFA) is an original method for controlling the spatial heterogeneity in Stochastic Frontier Analysis (SFA) models, for cross-sectional data, by splitting the inefficiency term into three terms: the first one related to spatial peculiarities of the territory in which each single unit operates, the second one related to the specific production features and the third one representing the error term.
@@ -11,6 +11,6 @@ License: GPL-3
 Suggests: R.rsp
 VignetteBuilder: R.rsp
 NeedsCompilation: no
-Packaged: 2022-01-05 17:02:05 UTC; elisafusco
+Packaged: 2023-08-01 10:32:44 UTC; Administrator
 Repository: CRAN
-Date/Publication: 2022-01-05 17:30:02 UTC
+Date/Publication: 2023-08-07 12:40:02 UTC

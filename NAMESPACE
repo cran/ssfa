@@ -2,7 +2,7 @@ exportPattern("^[[:alpha:]]+")
 
 import(maxLik)
 import(Matrix)
-if (packageVersion("spdep") < 1.2) {
+if (packageVersion("spdep") < "1.2") {
   import(spdep, except=c("errorsarlm"))
 } else {
   import(spdep)

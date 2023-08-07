@@ -1,6 +1,6 @@
-c76b28bd36dc724d1fc8ba19d41c0bba *DESCRIPTION
-206b5b0de612d61e3daf7edd8b993839 *NAMESPACE
-af29cbd6087af896362e69d0eb8f0894 *NEWS
+31b5cbb091e7340ffbb67dfef5f8ad82 *DESCRIPTION
+c9a6739214eaca8979c117ecb94e689f *NAMESPACE
+5a8f6aba2ceb1498f3522e3034dd612c *NEWS
 5f9cb07a01985e67f3d846cc61bcd798 *R/L_hNV.R
 51246c1f2d389524ba82fc7c129d0b14 *R/L_hNV_rho.R
 f534ee9b53cf1a501dc1f72e04a244a3 *R/eff.ssfa.R
@@ -14,12 +14,12 @@ c3090b3c70a6e0c409e0213bc8614ed4 *R/print.ssfa.r
 f677b4ec6eec12361b07a212e53ea53e *R/ssfa.fit.R
 2b11a5380460dcf56fd0ceddaf4abb0b *R/summary.ssfa.r
 5d7ea7559149a5149c3543412e598a0b *R/u.ssfa.r
-6afeed78c3c1d578f685927af12cd319 *build/vignette.rds
+78a40dc78ee67d5e85c324fd29862a73 *build/vignette.rds
 22e920d6372349e30045c9a12ae1f524 *data/Italian_W.rda
 f739f0dd950b73de1b79ce9d9a2194c4 *data/SSFA_example_data.rda
-ba6904a646502956ed901f98718dc716 *inst/doc/ssfavignette.R
+49b649d778f006322aa0fbf1b18a3424 *inst/doc/ssfavignette.R
 038d2f9d49b9eb06cfc42bc8717c9b08 *inst/doc/ssfavignette.Rnw
-b005a12d46301a796ffb4ab2f2e30080 *inst/doc/ssfavignette.pdf
+7034b484db716e58157837e66fae3bc8 *inst/doc/ssfavignette.pdf
 b09933f6e426039b7c570ceade420534 *man/Italian_W.Rd
 8b5f43156eed1c5e5d327ec1329a97a2 *man/L_hnv.Rd
 6f7f4a1dfc158dcd32c5e91263a3046f *man/L_hnv_rho.Rd
