@@ -16,6 +16,9 @@ u.ssfa(object, ...)
 \value{Inefficiency of each producer (without local spatial effects).}
 \references{
 Fusco, E. and Vidoli, F. (2013) \emph{Spatial stochastic frontier models: controlling spatial global and local heterogeneity} , International Review of Applied Economics, 27(5) 679-694.
+
+Fusco, E. (2020). \emph{Spatial Dependence in Efficiency Parametric Models: A Generalization and Simulation Studies}, "Scienze Regionali, Italian Journal of Regional Science" Speciale/2021, 595-618.
+
 Kumbhakar, S. C., and C. A. K. Lovell. (2000) \emph{Stochastic Frontier Analysis}, Cambridge University Press.
 
 Jondrow, J., C. A. Knox Lovell, I. S. Materov, and P. Schmidt. (1982). \emph{On the Estimation of Technical Inefficiency in the Stochastic Frontier Production Function Model.} Journal of Econometrics 19 (2-3): 233-238.

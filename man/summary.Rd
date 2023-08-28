@@ -35,6 +35,8 @@ Anselin, L. (1995). \emph{Local indicators of spatial association, Geographical 
 
 Fusco, E. and Vidoli, F. (2013). \emph{Spatial stochastic frontier models: controlling spatial global and local heterogeneity}, International Review of Applied Economics, 27(5) 679-694.
 
+Fusco, E. (2020). \emph{Spatial Dependence in Efficiency Parametric Models: A Generalization and Simulation Studies}, "Scienze Regionali, Italian Journal of Regional Science" Speciale/2021, 595-618.
+
 Kumbhakar, S. C., and C. A. K. Lovell (2000). \emph{Stochastic Frontier Analysis}, Cambridge University Press.
 }
 \examples{
